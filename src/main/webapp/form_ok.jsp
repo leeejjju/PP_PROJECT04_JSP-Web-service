@@ -24,7 +24,7 @@
   String uid = request.getParameter("uid");
   String pass = request.getParameter("pass");
   String email = request.getParameter("email");
-  String domain = request.getParameter("domain");
+  String edomain = request.getParameter("edomain");
   String gender = request.getParameter("gender");
   String birth = request.getParameter("birth");
   String pnum = request.getParameter("pnum");
@@ -36,7 +36,7 @@
   out.println("이름 : " + uname + "<br />");
   out.println("아이디 : " + uid + "<br />");
   out.println("비밀번호 : " + pass + "<br />");
-  out.println("이메일 : " + email + "@" + domain + "<br />");
+  out.println("이메일 : " + email + "@" + edomain + "<br />");
   out.println("성별 : " + gender + "<br />");
   out.println("생년월일 : " + birth + "<br />");
   out.println("휴대전화 : " + pnum + "<br />");
