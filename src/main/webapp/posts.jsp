@@ -19,38 +19,6 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-	<!--
-	<style>
-		#list {
-			font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-			border-collapse: collapse;
-			width: 100%;
-		}
-
-		#list td,
-		#list th {
-			border: 1px solid #ddd;
-			padding: 8px;
-			text-align: center;
-		}
-
-		#list tr:nth-child(even) {
-			background-color: #f2f2f2;
-		}
-
-		#list tr:hover {
-			background-color: #ddd;
-		}
-
-		#list th {
-			padding-top: 12px;
-			padding-bottom: 12px;
-			text-align: center;
-			background-color: darkslateblue;
-			color: white;
-		}
-	</style>
-	-->
 
 	<script>
 		function delete_ok(id) {
@@ -61,35 +29,6 @@
 </head>
 
 <body>
-	<!--
-	<table id="list" width="90%">
-		<tr>
-			<th>photo</th>
-			<th>name</th>
-			<th>ID</th>
-			<th>password</th>
-			<th>E-mail</th>
-			<th>gender</th>
-			<th>birthday</th>
-			<th>edit</th>
-		</tr>
-		<c:forEach items="${list}" var="u">
-			<tr>
-				<td><img src="./upload/${u.getImg()}" width="50"></td>
-				<td>${u.getName()}</td>
-				<td>${u.getID()}</td>
-				<td>${u.getPW()}</td>
-				<td>${u.getEMail()}</td>
-				<td>${u.getGender()}</td>
-				<td>${u.getBirthday()}</td>
-				<td>
-					<a href="editform.jsp?id=${u.getPK()}">Edit</a>
-					<a href="javascript:delete_ok('${u.getPK()}')">Delete</a>
-				</td>
-			</tr>
-		</c:forEach>
-	</table>
-	-->
 
 	<!--Main Table -->
 	<div class="container-xl">
@@ -174,6 +113,5 @@
 
 	<br />
 	<a class=button" href="file.jsp">file upload test</a><br>
-	<a class=button" href="indexCRUD.jsp">go to indexCRUD</a>
 </body>
 </html>
