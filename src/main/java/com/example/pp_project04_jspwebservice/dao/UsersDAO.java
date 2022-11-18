@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.example.pp_project04_jspwebservice.bean.UsersVO;
 import com.example.pp_project04_jspwebservice.util.JDBCUtil;
-import sun.rmi.server.UnicastServerRef;
 
 public class UsersDAO {
 
@@ -20,10 +19,11 @@ public class UsersDAO {
     private final String USERS_UPDATE = "UPDATE users SET name=?, uid=?, pw=?, email=?, gender=?, birthday=?, img=? where id=?";
     private final String USERS_DELETE = "DELETE FROM users  WHERE id=?";
     private final String USERS_GET = "SELECT * FROM users  WHERE id=?";
-    private final String USERS_LIST = "SELECT * FROM users ORDER BY id DESC";
+    private final String USERS_LIST = "SELECT * FROM users ORDER BY id ASC";
+    private final String USERS_FILE = "SELECT img FROM users  WHERE id=?";
 
-    public int insertBoard(UsersVO vo) {
-        System.out.println("===> JDBC로 insertBoard() 기능 처리");
+    public int insertUser(UsersVO vo) {
+        System.out.println("===> JDBC로 insertUser() 기능 처리");
         try {
             conn = JDBCUtil.getConnection();
             stmt = conn.prepareStatement(USERS_INSERT);
@@ -43,8 +43,8 @@ public class UsersDAO {
     }
 
     // 글 삭제
-    public void deleteBoard(UsersVO vo) {
-        System.out.println("===> JDBC로 deleteBoard() 기능 처리");
+    public void deleteUser(UsersVO vo) {
+        System.out.println("===> JDBC로 deleteUser() 기능 처리");
         try {
             conn = JDBCUtil.getConnection();
             stmt = conn.prepareStatement(USERS_DELETE);
@@ -54,8 +54,8 @@ public class UsersDAO {
             e.printStackTrace();
         }
     }
-    public int updateBoard(UsersVO vo) {
-        System.out.println("===> JDBC로 updateBoard() 기능 처리");
+    public int updateUser(UsersVO vo) {
+        System.out.println("===> JDBC로 updateUser() 기능 처리");
         try {
             conn = JDBCUtil.getConnection();
             stmt = conn.prepareStatement(USERS_UPDATE);
@@ -68,8 +68,7 @@ public class UsersDAO {
             stmt.setString(7, vo.getImg());
             stmt.setInt(8, vo.getPK());
 
-
-            System.out.println(vo.getName() + "-" + vo.getID() + "-" + vo.getPW() + "- ... -" + vo.getPK() + "updated.");
+            System.out.println("[UPDATE Info] " + vo.getName() + " - " + vo.getImg() + " | Primary key: " + vo.getPK());
             stmt.executeUpdate();
             return 1;
 
@@ -79,24 +78,23 @@ public class UsersDAO {
         return 0;
     }
 
-    public UsersVO getBoard(int seq) {
+    public UsersVO getUser(int id) {
         UsersVO one = new UsersVO();
-        System.out.println("===> JDBC로 getBoard() 기능 처리");
+        System.out.println("===> JDBC로 getUser() 기능 처리");
         try {
             conn = JDBCUtil.getConnection();
             stmt = conn.prepareStatement(USERS_GET);
-            stmt.setInt(1, seq);
-            rs = stmt.executeQuery();
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery(); //쿼리실행 후 결과 받아오기
             if(rs.next()) {
                 one.setPK(rs.getInt("id"));
-                one.setName(rs.getString("uname"));
+                one.setName(rs.getString("name"));
                 one.setID(rs.getString("uid"));
-                one.setPW(rs.getString("pass"));
+                one.setPW(rs.getString("pw"));
                 one.setEMail(rs.getString("email"));
                 one.setGender(rs.getString("gender"));
-                one.setBirthday(rs.getString("birth"));
+                one.setBirthday(rs.getString("birthday"));
                 one.setImg(rs.getString("img"));
-                //one.setCnt(rs.getInt("cnt"));
             }
             rs.close();
         } catch (Exception e) {
@@ -105,9 +103,9 @@ public class UsersDAO {
         return one;
     }
 
-    public List<UsersVO> getBoardList(){
+    public List<UsersVO> getUserList(){
         List<UsersVO> list = new ArrayList<UsersVO>();
-        System.out.println("===> JDBC로 getBoardList() 기능 처리");
+        System.out.println("===> JDBC로 getUserList() 기능 처리");
         try {
             conn = JDBCUtil.getConnection();
             stmt = conn.prepareStatement(USERS_LIST);
@@ -115,12 +113,12 @@ public class UsersDAO {
             while(rs.next()) {
                 UsersVO one = new UsersVO();
                 one.setPK(rs.getInt("id"));
-                one.setName(rs.getString("uname"));
+                one.setName(rs.getString("name"));
                 one.setID(rs.getString("uid"));
-                one.setPW(rs.getString("pass"));
+                one.setPW(rs.getString("pw"));
                 one.setEMail(rs.getString("email"));
                 one.setGender(rs.getString("gender"));
-                one.setBirthday(rs.getString("birth"));
+                one.setBirthday(rs.getString("birthday"));
                 one.setImg(rs.getString("img"));
                 //one.setCnt(rs.getInt("cnt"));
                 list.add(one);
@@ -131,4 +129,25 @@ public class UsersDAO {
         }
         return list;
     }
+
+    public String getFilename(int id) {
+        String filename = null;
+
+        try {
+            conn = JDBCUtil.getConnection();
+            stmt = conn.prepareStatement(USERS_FILE);
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery(); //쿼리실행 후 결과 받아오기
+            if(rs.next()) {
+                filename = rs.getString("img");
+            }
+            rs.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("===> JDBC로 getFilename() 기능 처리");
+        return filename;
+    }
+
+
 }

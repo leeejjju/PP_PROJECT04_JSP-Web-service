@@ -1,14 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="com.example.pp_project04_jspwebservice.dao.BoardDAO, com.example.pp_project04_jspwebservice.bean.BoardVO"%>
+<%@page import="com.example.pp_project04_jspwebservice.dao.UsersDAO, com.example.pp_project04_jspwebservice.bean.UsersVO"%>
+<%@ page import="com.example.pp_project04_jspwebservice.util.FileUpload" %>
 <%
 	String sid = request.getParameter("id");
-	if (sid != ""){  
+	if (sid != ""){
 		int id = Integer.parseInt(sid);
-		BoardVO u = new BoardVO();
-		u.setSeq(id);
-		BoardDAO boardDAO = new BoardDAO();
-		boardDAO.deleteBoard(u);
+		UsersVO u = new UsersVO();
+		u.setPK(id);
+		UsersDAO usersDAO = new UsersDAO();
+
+		String filename = usersDAO.getFilename(id);
+		if(filename != null){
+			FileUpload.deleteFile(request, filename);
+		}
+
+		usersDAO.deleteUser(u);
 	}
 	response.sendRedirect("posts.jsp");
 %>
